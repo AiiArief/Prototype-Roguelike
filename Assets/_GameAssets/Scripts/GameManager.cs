@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Roguelike
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum GameState
     {
-        
+        None,
+        Preparation,
+        PickNextRoom,
+        PickStrategy,
+        Fighting,
+        GetReward,
+        GameOver
     }
 
-    // Update is called once per frame
-    void Update()
+    public class GameManager : MonoBehaviour
     {
-        
+        // singleton goblog
+
+        // database database
     }
 }

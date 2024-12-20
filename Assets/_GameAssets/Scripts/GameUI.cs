@@ -1,18 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Roguelike.Utilities;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour
+public class GameUI : MonoBehaviourSingleton<GameUI>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Text m_consoleText;
+    public Text consoleText => m_consoleText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] Button[] m_buttons;
+    public Button[] buttons => m_buttons;
 }

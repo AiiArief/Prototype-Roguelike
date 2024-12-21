@@ -27,17 +27,20 @@ namespace Roguelike
         GameState m_currentGameState = GameState.None;
         public GameState CurrentGameState => m_currentGameState;
 
-        public bool TryChangeGameState(GameState newState)
+        public void NextRoom()
         {
-            if (m_currentGameState == newState)
-                return false;
-
-            var beforeState = m_currentGameState;
-            m_currentGameState = newState;
-            OnGameStateChanged?.Invoke(beforeState, newState);
-            return true;
+            TryChangeGameState(GameState.ChooseNextRoom);
         }
 
+        public void OpenTalent()
+        {
+            Debug.Log("TODO : Opening talent");
+        }
+
+        public void OpenWeapon()
+        {
+            Debug.Log("TODO : Opening Weapon");
+        }
 
         private void Start()
         {
@@ -50,6 +53,16 @@ namespace Roguelike
 
             TryChangeGameState(GameState.Preparation);
             OnGameManagerStarted?.Invoke();
+        }
+        bool TryChangeGameState(GameState newState)
+        {
+            if (m_currentGameState == newState)
+                return false;
+
+            var beforeState = m_currentGameState;
+            m_currentGameState = newState;
+            OnGameStateChanged?.Invoke(beforeState, newState);
+            return true;
         }
     }
 }

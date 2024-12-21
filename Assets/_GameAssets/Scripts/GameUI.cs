@@ -10,9 +10,7 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviourSingleton<GameUI>
 {
-    [Header("Console Panel")]
-    [SerializeField] Text m_consoleText;
-
+    // pindahin ke class baru, au ini buat apaan game ui
     [Header("Choice Panel")]
     [SerializeField] GameObject m_choicePanel_choiceMode;
     [SerializeField] Button[] m_choicePanel_buttons;
@@ -21,14 +19,14 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
 
     private void OnEnable()
     {
-        GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
-        MapManager.Instance.OnMapManagerGenerated += OnMapManagerGenerated;
+        GameManager.OnGameStateChanged += OnGameStateChanged;
+        GameManager.OnGameMapGenerated += OnGameMapGenerated;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
-        MapManager.Instance.OnMapManagerGenerated -= OnMapManagerGenerated;        
+        GameManager.OnGameStateChanged -= OnGameStateChanged;
+        GameManager.OnGameMapGenerated -= OnGameMapGenerated;        
     }
 
     private void OnGameStateChanged(GameState before, GameState after)
@@ -39,7 +37,7 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
         RefreshUI();
     }
 
-    private void OnMapManagerGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNodel)
+    private void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNodel)
     {
         RefreshUI();
     }
@@ -56,13 +54,13 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
         if (currentNode is MapNodeData_Preparation currentNodePreparation)
         {
             m_choicePanel_choiceMode.SetActive(true);
-            AddChoiceButton("Next Room", RefreshUI);
+            AddChoiceButton("Next Room", GameManager.Instance.NextRoom);
 
             if (currentNodePreparation.CanChooseTalent)
-                AddChoiceButton("Choose Talent", RefreshUI);
+                AddChoiceButton("Choose Talent", GameManager.Instance.OpenTalent);
 
             if (currentNodePreparation.CanChooseWeapon)
-                AddChoiceButton("Choose Weapon", RefreshUI);
+                AddChoiceButton("Choose Weapon", GameManager.Instance.OpenWeapon);
             
             return;
         }

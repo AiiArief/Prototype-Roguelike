@@ -17,15 +17,15 @@ namespace Roguelike
 
         private void OnEnable()
         {
-            MapManager.Instance.OnMapManagerGenerated += OnMapManagerGenerated;
+            GameManager.OnGameMapGenerated += OnGameMapGenerated;
         }
 
         private void OnDisable()
         {
-            MapManager.Instance.OnMapManagerGenerated -= OnMapManagerGenerated;
+            GameManager.OnGameMapGenerated -= OnGameMapGenerated;
         }
 
-        void OnMapManagerGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
         {
             m_currentMapAreaData = mapArea;
             m_currentMapAreaVariationData = mapAreaVariation;

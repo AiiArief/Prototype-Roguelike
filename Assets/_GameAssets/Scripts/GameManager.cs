@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Roguelike.Data;
 using Roguelike.Utilities;
 using UnityEngine;
 
@@ -19,13 +20,21 @@ namespace Roguelike
 
     public class GameManager : MonoBehaviourSingleton<GameManager>
     {
-        public event Action OnGameManagerStarted;
+        public static event Action OnGameManagerStarted;
+
+        public delegate void OnGameMapGeneratedDelegate(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode);
+        public static event OnGameMapGeneratedDelegate OnGameMapGenerated;
 
         public delegate void OnGameStateChangedDelegate(GameState before, GameState after);
-        public event OnGameStateChangedDelegate OnGameStateChanged;
+        public static event OnGameStateChangedDelegate OnGameStateChanged;
 
         GameState m_currentGameState = GameState.None;
         public GameState CurrentGameState => m_currentGameState;
+
+        public static void InvokeOnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        {
+            OnGameMapGenerated?.Invoke(mapArea, mapAreaVariation, mapNode);
+        }
 
         public void NextRoom()
         {

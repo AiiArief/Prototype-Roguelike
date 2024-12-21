@@ -15,24 +15,43 @@ public class ConsoleUI : MonoBehaviourSingleton<ConsoleUI>
     private void OnEnable()
     {
         GameManager.OnGameStateChanged += OnGameStateChanged;
-        GameManager.OnGameMapGenerated += OnGameMapGenerated;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStateChanged -= OnGameStateChanged;
-        GameManager.OnGameMapGenerated -= OnGameMapGenerated;        
     }
 
     private void OnGameStateChanged(GameState before, GameState after)
     {
-        if (before == GameState.None)
+        if (after == GameState.PreparationNextRoom)
+        {
+            // baca situasi ruangan gimana
             return;
+        }
 
-    }
+        if (after == GameState.ChooseNextRoom)
+        {
+            // baca ruangan selanjutnya gimana
+            return;
+        }
 
-    private void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNodel)
-    {
+        if (after == GameState.ChooseStrategy)
+        {
+            // baca musuh ruangan gimana
+            return;
+        }
 
+        if (after == GameState.Fighting)
+        {
+            // baca ruangan selanjutnya gimana
+            return;
+        }
+
+        if (after == GameState.ChooseReward)
+        {
+            // baca dapet reward apa aja
+            return;
+        }
     }
 }

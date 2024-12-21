@@ -10,7 +10,7 @@ namespace Roguelike
     public enum GameState
     {
         None,
-        Preparation,
+        PreparationNextRoom,
         ChooseNextRoom,
         ChooseStrategy,
         Fighting,
@@ -31,9 +31,10 @@ namespace Roguelike
         GameState m_currentGameState = GameState.None;
         public GameState CurrentGameState => m_currentGameState;
 
-        public static void InvokeOnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        public void InvokeOnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
         {
             OnGameMapGenerated?.Invoke(mapArea, mapAreaVariation, mapNode);
+            TryChangeGameState(GameState.PreparationNextRoom);
         }
 
         public void NextRoom()
@@ -60,7 +61,6 @@ namespace Roguelike
         {
             yield return new WaitForEndOfFrame();
 
-            TryChangeGameState(GameState.Preparation);
             OnGameManagerStarted?.Invoke();
         }
         bool TryChangeGameState(GameState newState)

@@ -34,7 +34,7 @@ namespace Roguelike
             if (currentNode == null)
                 return;
 
-            GameManager.InvokeOnGameMapGenerated(currentArea, currentAreaVariation, currentNode);
+            GameManager.Instance.InvokeOnGameMapGenerated(currentArea, currentAreaVariation, currentNode);
         }
     }
 }

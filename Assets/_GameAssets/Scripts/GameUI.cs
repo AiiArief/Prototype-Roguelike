@@ -20,24 +20,14 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
     private void OnEnable()
     {
         GameManager.OnGameStateChanged += OnGameStateChanged;
-        GameManager.OnGameMapGenerated += OnGameMapGenerated;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStateChanged -= OnGameStateChanged;
-        GameManager.OnGameMapGenerated -= OnGameMapGenerated;        
     }
 
     private void OnGameStateChanged(GameState before, GameState after)
-    {
-        if (before == GameState.None)
-            return;
-
-        RefreshUI();
-    }
-
-    private void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNodel)
     {
         RefreshUI();
     }
@@ -47,20 +37,27 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
         if (!TryResetChoicePanel())
             return;
 
+        var currentGameState = GameManager.Instance.CurrentGameState;
+        if (currentGameState == GameState.None)
+            return;
+
         var currentNode = PlayerManager.Instance.CurrentMapNode;
         if (currentNode == null)
             return;
 
-        if (currentNode is MapNodeData_Preparation currentNodePreparation)
+        if (currentGameState == GameState.PreparationNextRoom)
         {
             m_choicePanel_choiceMode.SetActive(true);
             AddChoiceButton("Next Room", GameManager.Instance.NextRoom);
 
-            if (currentNodePreparation.CanChooseTalent)
-                AddChoiceButton("Choose Talent", GameManager.Instance.OpenTalent);
+            if (currentNode is MapNodeData_Preparation currentNodePreparation)
+            {
+                if (currentNodePreparation.CanChooseTalent)
+                    AddChoiceButton("Choose Talent", GameManager.Instance.OpenTalent);
 
-            if (currentNodePreparation.CanChooseWeapon)
-                AddChoiceButton("Choose Weapon", GameManager.Instance.OpenWeapon);
+                if (currentNodePreparation.CanChooseWeapon)
+                    AddChoiceButton("Choose Weapon", GameManager.Instance.OpenWeapon);
+            }
             
             return;
         }

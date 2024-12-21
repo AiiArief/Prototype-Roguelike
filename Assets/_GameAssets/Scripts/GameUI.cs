@@ -5,6 +5,7 @@ using Roguelike;
 using Roguelike.Data;
 using Roguelike.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviourSingleton<GameUI>
@@ -55,13 +56,14 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
         if (currentNode is MapNodeData_Preparation currentNodePreparation)
         {
             m_choicePanel_choiceMode.SetActive(true);
-            m_choicePanel_buttons[0].gameObject.SetActive(true);
+            AddChoiceButton("Next Room", RefreshUI);
 
             if (currentNodePreparation.CanChooseTalent)
-                m_choicePanel_buttons[1].gameObject.SetActive(true);
+                AddChoiceButton("Choose Talent", RefreshUI);
 
             if (currentNodePreparation.CanChooseWeapon)
-                m_choicePanel_buttons[2].gameObject.SetActive(true);
+                AddChoiceButton("Choose Weapon", RefreshUI);
+            
             return;
         }
     }
@@ -76,11 +78,28 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
 
         m_choicePanel_choiceMode.SetActive(false);
         foreach (var button in m_choicePanel_buttons)
+        {
             button.gameObject.SetActive(false);
+            button.onClick.RemoveAllListeners();
+        }
 
         m_choicePanel_textMode.SetActive(false);
-        m_choicePanel_text.text = "Nothing to see here";
+        m_choicePanel_text.text = "";
 
         return true;
+    }
+
+    void AddChoiceButton(string text, UnityAction onClickAction)
+    {
+        foreach(var button in m_choicePanel_buttons)
+        {
+            if (button.gameObject.activeSelf)
+                continue;
+
+            button.gameObject.SetActive(true);
+            button.onClick.AddListener(onClickAction);
+            button.GetComponentInChildren<Text>().text = text;
+            break;
+        }
     }
 }

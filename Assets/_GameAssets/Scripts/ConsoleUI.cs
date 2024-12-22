@@ -103,7 +103,9 @@ public class ConsoleUI : MonoBehaviourSingleton<ConsoleUI>
 
         if (after == GameState.ChooseReward)
         {
-            // baca dapet reward apa aja
+            // TODO : list rewardnya apa aja
+            var log = "No reward in this room, sadge...";
+            Log(log);
             return;
         }
     }

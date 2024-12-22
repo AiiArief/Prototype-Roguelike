@@ -85,7 +85,7 @@ public class ConsoleUI : MonoBehaviourSingleton<ConsoleUI>
         if (after == GameState.ChooseStrategy)
         {
             // TODO : pertama kali masuk kasih tau bakalan ada berapa musuh
-            // TODO : jelasin ada berapa enemy di depan, setiap strategi butuh berapa peluru & berapa persen sukses rate nya
+            // TODO : jelasin ada berapa enemy di depan (+ jaraknya gimana), setiap strategi butuh berapa peluru & berapa persen sukses rate nya
             // TODO : kalo masih stealth, kasih tau bakalan berapa persen trigger alarm
             var log = "No enemy here ... go pick your reward";
             Log(log);

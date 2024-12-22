@@ -54,19 +54,50 @@ public class ConsoleUI : MonoBehaviourSingleton<ConsoleUI>
 
         if (after == GameState.ChooseNextRoom)
         {
-            // baca ruangan selanjutnya gimana
+            var nextNodeChoices = currentNode.NodeNextConnections;
+            var log = "Please choose next room : ";
+            var optionIndex = 1;
+
+            if(nextNodeChoices.Length <= 0)
+                log += $"\nOption {optionIndex} : Portal to next area is waiting for you...";
+            
+            foreach(var node in nextNodeChoices)
+            {
+                if (node is MapNodeData_Preparation nodePreparation)
+                    log += $"\nOption {optionIndex} : It's a preparation room!";
+
+                if (node is MapNodeData_Shop nodeShop)
+                    log += $"\nOption {optionIndex} : It's a shop, you can buy some shits here";
+
+                if (node is MapNodeData_Battle nodeBattle)
+                {
+                    // TODO : kasih tau reward sama roomnnya gimana
+                    log += $"\nOption {optionIndex} : Enemies are waiting for you in a mysterious room, there's a reward tho";
+                }
+
+                optionIndex++;
+            }
+
+            Log(log);
             return;
         }
 
         if (after == GameState.ChooseStrategy)
         {
-            // baca musuh ruangan gimana
+            // TODO : pertama kali masuk kasih tau bakalan ada berapa musuh
+            // TODO : jelasin ada berapa enemy di depan, setiap strategi butuh berapa peluru & berapa persen sukses rate nya
+            // TODO : kalo masih stealth, kasih tau bakalan berapa persen trigger alarm
+            var log = "No enemy here ... go pick your reward";
+            Log(log);
             return;
         }
 
         if (after == GameState.Fighting)
         {
-            // baca ruangan selanjutnya gimana
+            // TODO : kasih tau hasil dadu dan hasil fighting, kalo dadu gagal kasih tau kena berapa damage
+            // TODO : kasih tau kalo trigger alarm
+            var log = "Fighting... against who?";
+            Log(log);
             return;
         }
 

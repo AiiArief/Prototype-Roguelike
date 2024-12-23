@@ -24,7 +24,7 @@ public class ConsoleUI : MonoBehaviourSingleton<ConsoleUI>
 
     private void OnGameStateChanged(GameState before, GameState after)
     {
-        var currentNode = PlayerManager.Instance.CurrentMapNode;
+        var currentNode = CharacterManager.Instance.CurrentPlayer.CurrentMapNode;
         if (currentNode == null)
             return;
 

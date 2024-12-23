@@ -8,8 +8,8 @@ namespace Roguelike.Data
         [SerializeField] string m_displayName = "Generic Character";
         public string DisplayName => m_displayName;
 
-        [SerializeField] int m_maxHealth = 100;
-        public int MaxHealth => m_maxHealth;
+        [SerializeField] int m_baseMaxHealth = 100;
+        public int BaseMaxHealth => m_baseMaxHealth;
 
         [SerializeField] WeaponData m_defaultWeapon;
         public WeaponData DefaultWeapon => m_defaultWeapon;

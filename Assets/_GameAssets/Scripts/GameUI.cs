@@ -41,7 +41,7 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
         if (currentGameState == GameState.None)
             return;
 
-        var currentNode = PlayerManager.Instance.CurrentMapNode;
+        var currentNode = CharacterManager.Instance.CurrentPlayer.CurrentMapNode;
         if (currentNode == null)
             return;
 

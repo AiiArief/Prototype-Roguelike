@@ -48,8 +48,10 @@ namespace Roguelike
             }
         }
 
+
         // TODO bikin item list
         // TODO dapetin current weapon, kalo ga ada balikin ke default
+        // TODO : instantatiate weapon dulu
     }
 
     public class Character_Player : Character

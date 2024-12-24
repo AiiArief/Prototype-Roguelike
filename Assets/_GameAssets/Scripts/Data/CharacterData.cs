@@ -11,8 +11,8 @@ namespace Roguelike.Data
         [SerializeField] int m_baseMaxHealth = 100;
         public int BaseMaxHealth => m_baseMaxHealth;
 
-        [SerializeField] WeaponData m_defaultWeapon;
-        public WeaponData DefaultWeapon => m_defaultWeapon;
+        [SerializeField] Item_Weapon m_defaultWeaponPrefab;
+        public Item_Weapon DefaultWeaponPrefab => m_defaultWeaponPrefab;
 
         // base starter talents data
     }

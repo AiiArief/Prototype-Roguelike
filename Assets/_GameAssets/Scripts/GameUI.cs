@@ -50,7 +50,7 @@ namespace Roguelike.UI
             if (currentGameState == GameState.PreparationNextRoom)
             {
                 m_choicePanel_choiceMode.SetActive(true);
-                AddChoiceButton("Next Room", GameManager.Instance.NextRoom);
+                AddChoiceButton("Next Room", GameManager.Instance.ChooseNextRoom);
 
                 if (currentNode is MapNodeData_Preparation currentNodePreparation)
                 {
@@ -61,6 +61,21 @@ namespace Roguelike.UI
                         AddChoiceButton("Choose Weapon", GameManager.Instance.OpenWeapon);
                 }
 
+                return;
+            }
+
+            if (currentGameState == GameState.ChooseNextRoom)
+            {
+                m_choicePanel_choiceMode.SetActive(true);
+                if (currentNode.NodeNextConnections.Length <= 0)
+                    AddChoiceButton("Next Area", () => GameManager.Instance.NextRoom());
+
+                int index = 0;
+                foreach(var connection in currentNode.NodeNextConnections)
+                {
+                    AddChoiceButton($"Room {index + 1}", () => GameManager.Instance.NextRoom(index));
+                    index++;
+                }
                 return;
             }
         }

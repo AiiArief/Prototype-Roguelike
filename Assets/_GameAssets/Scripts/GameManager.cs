@@ -28,9 +28,17 @@ namespace Roguelike
         GameState m_currentGameState = GameState.None;
         public GameState CurrentGameState => m_currentGameState;
 
-        public void NextRoom()
+        public void ChooseNextRoom()
         {
             TryChangeGameState(GameState.ChooseNextRoom);
+        }
+
+        public void NextRoom(int index = -1)
+        {
+            // kalo ga ada koneksi : area selanjutnya
+            // kalo area selanjutnya abis : tamat
+            // semua koneksi 
+            throw new NotImplementedException();
         }
 
         public void OpenTalent()

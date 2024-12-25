@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Roguelike.Data
@@ -18,7 +19,10 @@ namespace Roguelike.Data
     {
         [SerializeField] bool m_canChooseWeapon;
         public bool CanChooseWeapon => m_canChooseWeapon;
-        // choose weapon list?
+
+        [ShowIf("CanChooseWeapon")]
+        [SerializeField] Item_Weapon[] m_weaponChooseList;
+        public Item_Weapon[] WeaponChooseList => m_weaponChooseList;
 
         [SerializeField] bool m_canChooseTalent;
         public bool CanChooseTalent => m_canChooseTalent;

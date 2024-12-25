@@ -52,7 +52,6 @@ namespace Roguelike
         }
 
         // TODO bikin item list
-        // TODO : instantatiate weapon dulu
         [ReadOnly] Item_Weapon m_currentWeapon;
         public Item_Weapon CurrentWeapon
         {

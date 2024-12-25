@@ -32,20 +32,29 @@ namespace Roguelike
 
         private void OnEnable()
         {
+            GameManager.OnGameManagerStarted += OnGameManagerStarted;
             GameManager.OnGameMapGenerated += OnGameMapGenerated;
         }
 
         private void OnDisable()
         {
+            GameManager.OnGameManagerStarted -= OnGameManagerStarted;
             GameManager.OnGameMapGenerated -= OnGameMapGenerated;
         }
 
-        void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        void OnGameManagerStarted()
         {
             if (!m_playerPrefab)
                 return;
 
             m_currentPlayer = Instantiate(m_playerPrefab, transform);
+        }
+
+        void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        {
+            if (!m_currentPlayer)
+                return;
+
             m_currentPlayer.SetMap(mapArea, mapAreaVariation, mapNode);
         }
     }

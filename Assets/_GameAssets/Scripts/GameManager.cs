@@ -22,20 +22,11 @@ namespace Roguelike
     {
         public static event Action OnGameManagerStarted;
 
-        public delegate void OnGameMapGeneratedDelegate(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode);
-        public static event OnGameMapGeneratedDelegate OnGameMapGenerated;
-
         public delegate void OnGameStateChangedDelegate(GameState before, GameState after);
         public static event OnGameStateChangedDelegate OnGameStateChanged;
 
         GameState m_currentGameState = GameState.None;
         public GameState CurrentGameState => m_currentGameState;
-
-        public void InvokeOnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
-        {
-            OnGameMapGenerated?.Invoke(mapArea, mapAreaVariation, mapNode);
-            TryChangeGameState(GameState.PreparationNextRoom);
-        }
 
         public void NextRoom()
         {
@@ -54,15 +45,31 @@ namespace Roguelike
 
         private void Start()
         {
-            StartCoroutine(WaitAllListenersAndThenStart());
+            StartCoroutine(WaitAllManagersAndThenStart());
         }
 
-        IEnumerator WaitAllListenersAndThenStart()
+        private void OnEnable()
+        {
+            MapManager.OnMapGenerated += OnMapGenerated;
+        }
+
+        private void OnDisable()
+        {
+            MapManager.OnMapGenerated -= OnMapGenerated;
+        }
+
+        private void OnMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        {
+            TryChangeGameState(GameState.PreparationNextRoom);
+        }
+
+        IEnumerator WaitAllManagersAndThenStart()
         {
             yield return new WaitForEndOfFrame();
 
             OnGameManagerStarted?.Invoke();
         }
+
         bool TryChangeGameState(GameState newState)
         {
             if (m_currentGameState == newState)

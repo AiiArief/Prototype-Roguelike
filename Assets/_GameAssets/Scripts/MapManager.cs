@@ -6,6 +6,9 @@ namespace Roguelike
 {
     public class MapManager : MonoBehaviourSingleton<MapManager>
     {
+        public delegate void OnMapGeneratedDelegate(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode);
+        public static event OnMapGeneratedDelegate OnMapGenerated;
+
         [SerializeField] MapAreaData[] m_mapAreas;
         public MapAreaData[] MapAreas => m_mapAreas;
 
@@ -34,7 +37,7 @@ namespace Roguelike
             if (currentNode == null)
                 return;
 
-            GameManager.Instance.InvokeOnGameMapGenerated(currentArea, currentAreaVariation, currentNode);
+            OnMapGenerated?.Invoke(currentArea, currentAreaVariation, currentNode);
         }
     }
 }

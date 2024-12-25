@@ -12,20 +12,30 @@ namespace Roguelike.UI
 
         private void OnEnable()
         {
-            GameManager.OnGameStateChanged += OnGameStateChanged;
+            CharacterManager.OnPlayerGenerated += OnPlayerGenerated;
+            CharacterManager.Instance.CurrentPlayer.OnHealthChanged += OnHealthChanged;
+            CharacterManager.Instance.CurrentPlayer.OnWeaponChanged += OnWeaponChanged;
         }
 
         private void OnDisable()
         {
-            GameManager.OnGameStateChanged -= OnGameStateChanged;
+            CharacterManager.OnPlayerGenerated -= OnPlayerGenerated;
+            CharacterManager.Instance.CurrentPlayer.OnHealthChanged -= OnHealthChanged;
+            CharacterManager.Instance.CurrentPlayer.OnWeaponChanged -= OnWeaponChanged;
         }
 
-        private void OnGameStateChanged(GameState before, GameState after)
+        private void OnPlayerGenerated(Character_Player mainPlayer)
         {
-            if (before != GameState.None)
-                return;
+            UpdateUI();
+        }
 
-            // TODO : listener ke current player, tapi current playernya ada kemungkinan blom ke instantaite
+        private void OnWeaponChanged(Item_Weapon before, Item_Weapon after)
+        {
+            UpdateUI();
+        }
+
+        private void OnHealthChanged(int before, int after)
+        {
             UpdateUI();
         }
 

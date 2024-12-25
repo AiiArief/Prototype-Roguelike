@@ -8,6 +8,9 @@ namespace Roguelike
 {
     public class CharacterManager : MonoBehaviourSingleton<CharacterManager>
     {
+        public delegate void OnPlayerGeneratedDelegate(Character_Player mainPlayer);
+        public static event OnPlayerGeneratedDelegate OnPlayerGenerated;
+
         [SerializeField] Character_Player m_playerPrefab;
 
         Character_Player m_currentPlayer;
@@ -33,29 +36,35 @@ namespace Roguelike
         private void OnEnable()
         {
             GameManager.OnGameManagerStarted += OnGameManagerStarted;
-            GameManager.OnGameMapGenerated += OnGameMapGenerated;
+            MapManager.OnMapGenerated += OnMapGenerated;
         }
 
         private void OnDisable()
         {
             GameManager.OnGameManagerStarted -= OnGameManagerStarted;
-            GameManager.OnGameMapGenerated -= OnGameMapGenerated;
+            MapManager.OnMapGenerated -= OnMapGenerated;
         }
 
-        void OnGameManagerStarted()
+        private void OnGameManagerStarted()
         {
-            if (!m_playerPrefab)
+            InstantiatePlayer();
+        }
+
+        private void OnMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
+        {
+            if (!m_currentPlayer)
+                InstantiatePlayer();
+
+            m_currentPlayer.SetMap(mapArea, mapAreaVariation, mapNode);
+        }
+
+        void InstantiatePlayer()
+        {
+            if (!m_playerPrefab || m_currentPlayer)
                 return;
 
             m_currentPlayer = Instantiate(m_playerPrefab, transform);
-        }
-
-        void OnGameMapGenerated(MapAreaData mapArea, MapAreaVariationData mapAreaVariation, MapNodeData mapNode)
-        {
-            if (!m_currentPlayer)
-                return;
-
-            m_currentPlayer.SetMap(mapArea, mapAreaVariation, mapNode);
+            OnPlayerGenerated?.Invoke(m_currentPlayer);
         }
     }
 }
